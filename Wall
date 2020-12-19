@@ -1,0 +1,30 @@
+Sub Wall(li As Integer, co As Integer, ori As Integer, des As Integer, tip As Integer)
+    If tip > 1 Then
+        If des = 1 Then
+            Cells(li, co).Borders(xlEdgeTop).LineStyle = xlNone
+        Else
+            If des = 2 Then
+                Cells(li, co).Borders(xlEdgeLeft).LineStyle = xlNone
+            Else
+                If des = 3 Then
+                    Cells(li, co).Borders(xlEdgeBottom).LineStyle = xlNone
+                Else
+                    Cells(li, co).Borders(xlEdgeRight).LineStyle = xlNone
+                End If
+            End If
+        End If
+    Else
+        If des = 1 Or ori = 1 Then
+            Cells(li, co).Borders(xlEdgeTop).LineStyle = xlNone
+        End If
+        If des = 2 Or ori = 2 Then
+            Cells(li, co).Borders(xlEdgeLeft).LineStyle = xlNone
+        End If
+        If des = 3 Or ori = 3 Then
+            Cells(li, co).Borders(xlEdgeBottom).LineStyle = xlNone
+        End If
+        If des = 4 Or ori = 4 Then
+            Cells(li, co).Borders(xlEdgeRight).LineStyle = xlNone
+        End If
+    End If
+End Sub
