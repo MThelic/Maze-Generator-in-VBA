@@ -1,0 +1,11 @@
+Function Boundry(li As Integer, co As Integer, L As Integer, C As Integer) As Boolean
+    If li <= L And li > 0 Then
+        If co <= C And co > 0 Then
+            Boundry = True
+        Else
+            Boundry = False
+        End If
+    Else
+        Boundry = False
+    End If
+End Function
