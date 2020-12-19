@@ -1,0 +1,91 @@
+Sub GenerateMaze()
+    L = [AQ3]     'This is the Cell where you input the Width of the maze
+    If IsEmpty(L) Then
+        L = 10
+        [AQ3] = 10
+    End If
+    C = [AP3]     'This is the Cell where you input the Height of the maze
+    If IsEmpty(C) Then
+        C = 10
+        [AP3] = 10
+    End If
+    Set mapa = Range("A1", Cells(L, C))
+    Range("A1:AN40").Clear  'This Range you need to put the maximum size of your maze, so it will clear everything from the previous maze
+    mapa.Value = 0
+    With mapa
+        .Borders.LineStyle = xlContinuous
+        .Borders.ColorIndex = 0
+        .Borders.TintAndShade = 0
+        .Borders.Weight = xlThick
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter
+    End With
+    li = Int(L * Rnd + 1)
+    ili = li
+    co = 1
+    ori = 2
+    mapa.FormatConditions.Add Type:=xlCellValue, Operator:=xlEqual, Formula1:="=0"
+    With mapa.FormatConditions(1).Font
+        .ThemeColor = xlThemeColorDark1
+    End With
+    mapa.FormatConditions.Add Type:=xlCellValue, Operator:=xlEqual, Formula1:="=1"
+    With mapa.FormatConditions(2)
+        .Font.ThemeColor = xlThemeColorAccent4
+        .Interior.ThemeColor = xlThemeColorAccent4
+    End With
+    mapa.FormatConditions.Add Type:=xlCellValue, Operator:=xlEqual, Formula1:="=2"
+    With mapa.FormatConditions(3)
+        .Font.ThemeColor = xlThemeColorAccent6
+        .Interior.ThemeColor = xlThemeColorAccent6
+    End With
+    While WorksheetFunction.CountIf(mapa, 0) >= 1
+        tip = Cells(li, co)
+        des = Decision((li), (co), (ori), (L), (C))
+        If des > 4 Then
+            des = des - 4
+        Else
+            Call Wall((li), (co), (ori), (des), (tip))
+        End If
+        If Cells(li, co) = 0 Then
+            Cells(li, co) = 1
+        Else
+            Cells(li, co) = 2
+        End If
+        If des = 1 Then
+            li = li - 1
+        Else
+            If des = 2 Then
+                co = co - 1
+            Else
+                If des = 3 Then
+                    li = li + 1
+                Else
+                    co = co + 1
+                End If
+            End If
+        End If
+        If des < 3 Then
+            ori = des + 2
+        Else
+            ori = des - 2
+        End If
+    Wend
+    mapa.FormatConditions.Delete
+    mapa.ClearContents
+    Cells(ili, 1) = "I"
+    With Cells(ili, 1)
+        .Interior.ThemeColor = xlThemeColorAccent1
+        .Font.ThemeColor = xlThemeColorLight1
+        .Font.Bold = True
+        .Font.Size = 12
+    End With
+    fli = Int(L * Rnd + 1)
+    Cells(fli, C) = "F"
+    With Cells(fli, C)
+        .Borders(xlEdgeRight).LineStyle = xlNone
+        .Interior.ThemeColor = xlThemeColorAccent2
+        .Font.ThemeColor = xlThemeColorLight1
+        .Font.Bold = True
+        .Font.Size = 12
+    End With
+End Sub
